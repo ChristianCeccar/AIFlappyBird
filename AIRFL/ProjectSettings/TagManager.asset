@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Pipe
   - score
+  - BirdSpawner
   layers:
   - Default
   - TransparentFX

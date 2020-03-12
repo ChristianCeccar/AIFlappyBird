@@ -19,15 +19,12 @@ public class Bird : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        pipeSpawn = GameObject.FindWithTag("Pipe");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            rb.velocity = Vector2.up * velocity;
-        }
         transform.position += Vector3.right * speed * Time.deltaTime;
     }
 
@@ -52,5 +49,10 @@ public class Bird : MonoBehaviour
 
             Time.timeScale = 0;
         }
+    }
+
+    public void birdJump()
+    {
+        rb.velocity = Vector2.up * velocity;
     }
 }

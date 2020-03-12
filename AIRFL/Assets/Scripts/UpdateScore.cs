@@ -15,6 +15,6 @@ public class UpdateScore : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetComponent<Text>().text = score.ToString();
+        GetComponent<Text>().text = "Score: " + score.ToString();
     }
 }
