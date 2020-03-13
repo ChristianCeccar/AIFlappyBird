@@ -332,6 +332,9 @@ MonoBehaviour:
   birdClass: {fileID: 0}
   generationNum: 0
   layers: 03000000050000000500000001000000
+  getPipe: {fileID: 1491643001}
+  pipeData: {fileID: 0}
+  cam: {fileID: 963194225}
 --- !u!4 &310566437
 Transform:
   m_ObjectHideFlags: 0
@@ -874,6 +877,7 @@ MonoBehaviour:
   giveBird: {fileID: 310566435}
   b: []
   gameOverCheck: 0
+  pipeList: []
 --- !u!4 &1491643003
 Transform:
   m_ObjectHideFlags: 0
@@ -1197,7 +1201,6 @@ GameObject:
   - component: {fileID: 2066478020}
   - component: {fileID: 2066478023}
   - component: {fileID: 2066478022}
-  - component: {fileID: 2066478021}
   m_Layer: 5
   m_Name: Text
   m_TagString: score
@@ -1224,19 +1227,6 @@ RectTransform:
   m_AnchoredPosition: {x: 260.27, y: 196.5}
   m_SizeDelta: {x: 300, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2066478021
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2066478019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58ed10b80dbdb7443b4ffdbd08d13930, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  score: 0
 --- !u!114 &2066478022
 MonoBehaviour:
   m_ObjectHideFlags: 0

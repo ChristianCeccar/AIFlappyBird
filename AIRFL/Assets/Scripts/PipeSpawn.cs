@@ -12,7 +12,7 @@ public class PipeSpawn : MonoBehaviour
     public List<GameObject> b = new List<GameObject>();
     public bool gameOverCheck = false;
     GameObject temp;
-    List<GameObject> pipeList = new List<GameObject>();
+    public List<GameObject> pipeList = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
@@ -41,14 +41,15 @@ public class PipeSpawn : MonoBehaviour
             }
             for (int i = 0; i < b.Count; i++)
             {
-                Debug.Log(nextPipe(pipeList, b[i]).gameObject.name);
+                //Debug.Log(nextPipe(pipeList, b[i]).gameObject.name);
             }
+
             timer += Time.deltaTime;
         }
 
     }
 
-    GameObject nextPipe(List<GameObject> p, GameObject b)
+    public GameObject nextPipe(List<GameObject> p, GameObject b)
     {
 
         for(int i = 0; i < p.Count; i++)

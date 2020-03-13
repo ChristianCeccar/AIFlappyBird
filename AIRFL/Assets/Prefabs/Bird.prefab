@@ -112,8 +112,10 @@ MonoBehaviour:
   speed: 2
   gameOver: {fileID: 0}
   pipeSpawn: {fileID: 0}
+  birdM: {fileID: 0}
   yesButton: {fileID: 0}
   noButton: {fileID: 0}
+  score: 0
 --- !u!54 &9182939742380710409
 Rigidbody:
   m_ObjectHideFlags: 0

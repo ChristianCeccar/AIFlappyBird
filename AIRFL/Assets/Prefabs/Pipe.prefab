@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 6349633130919177672}
   m_Layer: 0
   m_Name: updateScoreCollider
-  m_TagString: Untagged
+  m_TagString: scoreCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

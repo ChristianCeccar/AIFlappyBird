@@ -8,7 +8,7 @@ public class addScore : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        s = GameObject.FindWithTag("score");
+        //s = GameObject.FindWithTag("score");
     }
 
     // Update is called once per frame
@@ -19,6 +19,6 @@ public class addScore : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        s.GetComponent<UpdateScore>().score++;
+        //s.GetComponent<UpdateScore>().score++;
     }
 }

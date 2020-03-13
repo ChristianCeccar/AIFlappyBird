@@ -12,14 +12,19 @@ public class Bird : MonoBehaviour
     public float speed;
     public GameObject gameOver;
     public GameObject pipeSpawn;
+    public GameObject birdM;
     public Button yesButton;
     public Button noButton;
+    public int score = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        rb.useGravity = true;
         pipeSpawn = GameObject.FindWithTag("Pipe");
+        gameOver = GameObject.Find("GameOver");
+        birdM = GameObject.Find("BirdSpawner");
     }
 
     // Update is called once per frame
@@ -31,8 +36,8 @@ public class Bird : MonoBehaviour
     void yesButtonListener()
     {
         SceneManager.LoadScene(0);
-    } 
-    
+    }
+
     void noButtonListener()
     {
         Application.Quit();
@@ -42,12 +47,18 @@ public class Bird : MonoBehaviour
     {
         if (collision.gameObject.tag == "Pipe")
         {
-            pipeSpawn.GetComponent<PipeSpawn>().gameOverCheck = true;
-            gameOver.SetActive(true);
-            yesButton.onClick.AddListener(yesButtonListener);
-            noButton.onClick.AddListener(noButtonListener);
 
-            Time.timeScale = 0;
+            //birdM.GetComponent<BirdManager>().softReset();
+            //pipeSpawn.GetComponent<PipeSpawn>().gameOverCheck = true;
+            //gameOver.SetActive(true);
+            //yesButton.onClick.AddListener(yesButtonListener);
+            //noButton.onClick.AddListener(noButtonListener);
+            //Debug.Log("TEST");
+            //Time.timeScale = 0;
+        }
+        if (collision.gameObject.tag == "scoreCollider")
+        {
+            score++;
         }
     }
 
@@ -56,3 +67,5 @@ public class Bird : MonoBehaviour
         rb.velocity = Vector2.up * velocity;
     }
 }
+
+    
