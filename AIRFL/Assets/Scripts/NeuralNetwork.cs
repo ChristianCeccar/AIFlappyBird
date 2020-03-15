@@ -1,11 +1,10 @@
-﻿
+﻿/* referenced from - https://drive.google.com/drive/folders/0B26krjpa9ytcYWlHU0MweUt5Z2c
+ https://www.youtube.com/watch?v=Yq0SfuiOVYE&t=1115s
+ */
 using System.Collections.Generic;
 using System;
 
-/// <summary>
-/// Neural Network C# (Unsupervised)
-/// </summary>
-public class NeuralNetwork : IComparable<NeuralNetwork>
+public class NeuralNetwork 
 {
     private int[] layers; //layers
     private float[][] neurons; //neuron matix
@@ -13,10 +12,7 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
     private float fitness; //fitness of the network
 
 
-    /// <summary>
-    /// Initilizes and neural network with random weights
-    /// </summary>
-    /// <param name="layers">layers to the neural network</param>
+  
     public NeuralNetwork(int[] layers)
     {
         //deep copy of layers of this network 
@@ -27,15 +23,11 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
         }
 
 
-        //generate matrix
         InitNeurons();
-        InitWeights();
+        initializeWeights();
     }
 
-    /// <summary>
-    /// Deep copy constructor 
-    /// </summary>
-    /// <param name="copyNetwork">Network to deep copy</param>
+
     public NeuralNetwork(NeuralNetwork copyNetwork)
     {
         this.layers = new int[copyNetwork.layers.Length];
@@ -45,7 +37,7 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
         }
 
         InitNeurons();
-        InitWeights();
+        initializeWeights();
         CopyWeights(copyNetwork.weights);
     }
 
@@ -63,9 +55,7 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
         }
     }
 
-    /// <summary>
-    /// Create neuron matrix
-    /// </summary>
+
     private void InitNeurons()
     {
         //Neuron Initilization
@@ -79,15 +69,12 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
         neurons = neuronsList.ToArray(); //convert list to array
     }
 
-    /// <summary>
-    /// Create weights matrix.
-    /// </summary>
-    private void InitWeights()
+   
+    private void initializeWeights()
     {
 
-        List<float[][]> weightsList = new List<float[][]>(); //weights list which will later will converted into a weights 3D array
+        List<float[][]> weightsList = new List<float[][]>(); 
 
-        //itterate over all neurons that have a weight connection
         for (int i = 1; i < layers.Length; i++)
         {
             List<float[]> layerWeightsList = new List<float[]>(); //layer weight list for this current layer (will be converted to 2D array)
@@ -115,11 +102,7 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
         weights = weightsList.ToArray(); //convert to 3D array
     }
 
-    /// <summary>
-    /// Feed forward this neural network with a given input array
-    /// </summary>
-    /// <param name="inputs">Inputs to network</param>
-    /// <returns></returns>
+    
     public float[] FeedForward(float[] inputs)
     {
         //Add inputs to the neuron matrix
@@ -147,9 +130,7 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
         return neurons[neurons.Length-1]; //return output layer
     }
 
-    /// <summary>
-    /// Mutate neural network weights
-    /// </summary>
+  
     public void Mutate()
     {
         for (int i = 0; i < weights.Length; i++)
@@ -164,24 +145,20 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
                     float randomNumber = UnityEngine.Random.Range(0f,100f);
 
                     if (randomNumber <= 2f)
-                    { //if 1
-                      //flip sign of weight
+                    { 
                         weight *= -1f;
                     }
                     else if (randomNumber <= 4f)
-                    { //if 2
-                      //pick random weight between -1 and 1
-                        weight = UnityEngine.Random.Range(-0.5f, 0.5f);
+                    { 
+                        weight = UnityEngine.Random.Range(-0.4f, 0.4f);
                     }
                     else if (randomNumber <= 6f)
-                    { //if 3
-                      //randomly increase by 0% to 100%
+                    { 
                         float factor = UnityEngine.Random.Range(0f, 1f) + 1f;
                         weight *= factor;
                     }
                     else if (randomNumber <= 8f)
-                    { //if 4
-                      //randomly decrease by 0% to 100%
+                    { 
                         float factor = UnityEngine.Random.Range(0f, 1f);
                         weight *= factor;
                     }
@@ -207,20 +184,6 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
         return fitness;
     }
 
-    /// <summary>
-    /// Compare two neural networks and sort based on fitness
-    /// </summary>
-    /// <param name="other">Network to be compared to</param>
-    /// <returns></returns>
-    public int CompareTo(NeuralNetwork other)
-    {
-        if (other == null) return 1;
-
-        if (fitness > other.fitness)
-            return 1;
-        else if (fitness < other.fitness)
-            return -1;
-        else
-            return 0;
-    }
+   
+   
 }

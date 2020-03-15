@@ -9,12 +9,12 @@ public class BirdManager : MonoBehaviour
     public List<GameObject> birds = new List<GameObject>();
     public GameObject birdClass;
     public int generationNum = 0;
-    public int[] layers = new int[] { 3, 5, 5, 1 };
+    public int[] layers = new int[] { 3, 3, 3, 1 };
     public List<NeuralNetwork> nets;
     float[] inputs = new float[3];//0 = height of pipe 1 = lower height pipe 2 = height of bird
     public GameObject getPipe;
     public GameObject pipeData;
-    const int numBirdNetwork = 10;
+    const int numBirdNetwork = 100;
     bool restartS = false;
     public GameObject cam;
     float[] results = new float[numBirdNetwork];
@@ -30,19 +30,18 @@ public class BirdManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            softReset();
+            restartS = true;
         }
-
+        
         for (int i = 0; i < numBirdNetwork; i++)
         {
             birdClass = birds[i];
             pipeData = getPipe.GetComponent<PipeSpawn>().nextPipe(getPipe.GetComponent<PipeSpawn>().pipeList, birds[i]);
 
-            inputs[0] = pipeData.transform.position.y + 1.3f;
-            inputs[1] = pipeData.transform.position.y - 1.3f;
+            inputs[0] = pipeData.transform.position.y + 1f;
+            inputs[1] = pipeData.transform.position.y - 1f;
             inputs[2] = birds[i].GetComponent<Bird>().transform.position.y;
 
             //Debug.Log("input 0: " + inputs[0]);
@@ -52,13 +51,40 @@ public class BirdManager : MonoBehaviour
             nets[i].SetFitness(birds[i].GetComponent<Bird>().score);
             //var xyz = sortNN(nets);
             Debug.Log("score: " + birds[i].GetComponent<Bird>().score);
-            if (Time.frameCount % 2250 == 0)
+            if (Time.frameCount % 2250 == 0 || restartS == true)
             {
                 var sortedNN = sortNN(nets);
-                nets[i] = sortedNN[i / 2];
+                nets[i] = sortedNN[i / 4];
                 nets[i].Mutate();
-                softReset();
+
+                //birds[i].GetComponent<Bird>().GetComponent<Rigidbody>().useGravity = true;
+
+                //Invoke("softReset", 2);
+                //Invoke("softResetPipe", 3);
+                softResetPipe();
+                //Invoke("waitTime", 10);
+                //resetBird();
+                Invoke("resetBird", 2);
+                restartS = false;
             }
+            //if (birds[0].activeInHierarchy == false && birds[1].activeInHierarchy == false && birds[2].activeInHierarchy == false 
+            //    && birds[3].activeInHierarchy == false && birds[4].activeInHierarchy == false && birds[5].activeInHierarchy == false
+            //    && birds[6].activeInHierarchy == false && birds[7].activeInHierarchy == false && birds[8].activeInHierarchy == false
+            //    && birds[9].activeInHierarchy == false)
+            //{
+            //    var sortedNN = sortNN(nets);
+            //    nets[i] = sortedNN[i / 4];
+            //    nets[i].Mutate();
+
+            //    //birds[i].GetComponent<Bird>().GetComponent<Rigidbody>().useGravity = true;
+            //    //Invoke("softReset", 2);
+            //    //softResetPipe();
+            //    Invoke("softResetPipe", 3);
+            //    //Invoke("waitTime", 10);
+            //    resetBird();
+            //    //Invoke("resetBird", 5);
+            //}
+
             else
             {
 
@@ -66,11 +92,10 @@ public class BirdManager : MonoBehaviour
 
                 results[i] = nets[i].FeedForward(inputs)[0];
                 results[i] += 0.5f;
-                Debug.Log(results[0]);
 
             }
 
-            if (results[i] > 0.5f)
+            if (results[i] > 0.7f)
             {
                 birdClass.GetComponent<Bird>().birdJump();
             }
@@ -83,11 +108,25 @@ public class BirdManager : MonoBehaviour
         List<GameObject> birds = new List<GameObject>();
         for (int i = 0; i < n; i++)
         {
-            temp = Instantiate(birdPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            temp = Instantiate(birdPrefab, new Vector3(-2, 0, 0), Quaternion.identity);
             birds.Add(temp);
 
         }
         return birds;
+    }
+
+    public void resetBird()
+    {
+        for (int i = 0; i < numBirdNetwork; i++)
+        {
+            birds[i].GetComponent<Bird>().gameObject.SetActive(true);
+            birds[i].GetComponent<Bird>().GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+            birds[i].transform.position = new Vector3(-2, 0, 0);
+            birds[i].GetComponent<Bird>().score = 0;
+        }
+        //cam.GetComponent<CameraMove>().enabled = false;
+        //cam.GetComponent<CameraMove>().transform.position = new Vector3(0, 1, -10);
+        //cam.GetComponent<CameraMove>().enabled = true;
     }
 
     List<NeuralNetwork> initNetwork(int n)
@@ -119,15 +158,10 @@ public class BirdManager : MonoBehaviour
         return unn;
     }
 
-    public void softReset()
+    public void softResetPipe()
     {
         
-        for (int i = 0; i < numBirdNetwork; i++)
-        {
-            birds[i].transform.position = new Vector3(0, 0, 0);
-            birds[i].GetComponent<Bird>().score = 0;
-        }
-
+        
         while (getPipe.GetComponent<PipeSpawn>().pipeList.Count > 0)
         {
             Destroy(getPipe.GetComponent<PipeSpawn>().pipeList[0].gameObject);

@@ -21,16 +21,31 @@ public class Bird : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.useGravity = true;
         pipeSpawn = GameObject.FindWithTag("Pipe");
         gameOver = GameObject.Find("GameOver");
         birdM = GameObject.Find("BirdSpawner");
+        rb.useGravity = true;
+
+    }
+
+    void Awake()
+    {
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
         transform.position += Vector3.right * speed * Time.deltaTime;
+        if (transform.position.y < -6)
+        {
+            this.gameObject.SetActive(false);
+        }
+        if (transform.position.y > 6)
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 
     void yesButtonListener()
@@ -47,7 +62,8 @@ public class Bird : MonoBehaviour
     {
         if (collision.gameObject.tag == "Pipe")
         {
-
+            
+            this.gameObject.SetActive(false);
             //birdM.GetComponent<BirdManager>().softReset();
             //pipeSpawn.GetComponent<PipeSpawn>().gameOverCheck = true;
             //gameOver.SetActive(true);
@@ -60,6 +76,7 @@ public class Bird : MonoBehaviour
         {
             score++;
         }
+        
     }
 
     public void birdJump()
