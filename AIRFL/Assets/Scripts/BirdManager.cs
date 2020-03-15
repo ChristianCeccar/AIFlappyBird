@@ -95,7 +95,7 @@ public class BirdManager : MonoBehaviour
 
             }
 
-            if (results[i] > 0.7f)
+            if (results[i] > 0.6f)
             {
                 birdClass.GetComponent<Bird>().birdJump();
             }
